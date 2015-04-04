@@ -136,7 +136,7 @@ public class Splash extends ActionBarActivity {
                         // make HTTP requests
                         if (session.isLoggedIn()) {
                             Intent intentMain = new Intent(getApplicationContext(),
-                                    Login.class);
+                                    Dashboard.class);
                             intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intentMain);

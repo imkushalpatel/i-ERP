@@ -6,6 +6,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class JSONParser {
 
+    public static DefaultHttpClient httpClient = new DefaultHttpClient();
     static InputStream is = null;
     static JSONObject jObj = null;
     static String json = "";
@@ -38,7 +40,7 @@ public class JSONParser {
         // Making HTTP request
         try {
             // Construct the client and the HTTP request.
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+
             HttpPost httpPost = new HttpPost(url);
 
             // Execute the POST request and store the response locally.
@@ -103,22 +105,26 @@ public class JSONParser {
             if (method == "POST") {
                 // request method is POST
                 // defaultHttpClient
-                DefaultHttpClient httpClient = new DefaultHttpClient();
+
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
 
+
                 HttpResponse httpResponse = httpClient.execute(httpPost);
+
                 HttpEntity httpEntity = httpResponse.getEntity();
+
                 is = httpEntity.getContent();
 
             } else if (method == "GET") {
                 // request method is GET
-                DefaultHttpClient httpClient = new DefaultHttpClient();
+
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
                 HttpGet httpGet = new HttpGet(url);
 
                 HttpResponse httpResponse = httpClient.execute(httpGet);
+
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
             }

@@ -7,17 +7,22 @@ import android.content.SharedPreferences.Editor;
 
 import com.dexteronweb.i_erp.Login;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class SessionManager {
     // User name (make variable public to access from outside)
-    public static final String KEY_FNAME = "fname";
-    public static final String KEY_LNAME = "lname";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ENTITY_ID = "entityid";
     // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "email";
+
     public static final String KEY_ID = "id";
     // Sharedpref file name
-    private static final String PREF_NAME = "The Highness";
+    private static final String PREF_NAME = "i-ERP";
 
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
@@ -40,16 +45,16 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String fname, String lname, String email, String id) {
+    public void createLoginSession(String name, String userid, String entityid) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
-        editor.putString(KEY_FNAME, fname);
-        editor.putString(KEY_LNAME, lname);
+        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_ID,userid);
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
-        editor.putString(KEY_ID, id);
+        editor.putString(KEY_ENTITY_ID,entityid);
+
         // commit changes
         editor.commit();
     }
@@ -83,13 +88,10 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
-        user.put(KEY_FNAME, pref.getString(KEY_FNAME, null));
-        user.put(KEY_LNAME, pref.getString(KEY_LNAME, null));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_ENTITY_ID, pref.getString(KEY_ENTITY_ID, null));
         user.put(KEY_ID, pref.getString(KEY_ID, null));
-        // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
-        // return user
         return user;
     }
 
@@ -119,6 +121,7 @@ public class SessionManager {
      */
     // Get Login State
     public boolean isLoggedIn() {
+
         return pref.getBoolean(IS_LOGIN, false);
     }
 }
