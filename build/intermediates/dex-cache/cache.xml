@@ -37,6 +37,13 @@
         <dex dex="/home/kushal/AndroidStudioProjects/i-ERP/app/build/intermediates/pre-dexed/debug/classes-a8c4bf6f40815f3cf633101b5795e9d2cfb58d79.jar" />
     </item>
     <item
+        jar="/home/kushal/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.5/77bf7cacf9cefe19dc105e5425d2eb1bb5285881/android-async-http-1.4.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="77bf7cacf9cefe19dc105e5425d2eb1bb5285881">
+        <dex dex="/home/kushal/AndroidStudioProjects/i-ERP/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.5-2bb5fc1fa321e5433c023c567778caadd97340d9.jar" />
+    </item>
+    <item
         jar="/home/kushal/AndroidStudioProjects/i-ERP/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="22.0.1"

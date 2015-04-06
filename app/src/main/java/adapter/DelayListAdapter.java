@@ -51,11 +51,11 @@ public class DelayListAdapter extends BaseAdapter {
         }
 
         TextView groupname = (TextView) convertView
-                .findViewById(R.id.textView11);
+                .findViewById(R.id.txtdelaylistname);
         groupname.setTypeface(null, Typeface.BOLD);
         groupname.setText(delayListArrayAdapter.get(position).getName());
         TextView groupvalue = (TextView) convertView
-                .findViewById(R.id.textView12);
+                .findViewById(R.id.txtdelaylistvalue);
         groupvalue.setTypeface(null, Typeface.BOLD);
         groupvalue.setText(delayListArrayAdapter.get(position).getValue());
 

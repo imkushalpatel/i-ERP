@@ -8,5 +8,11 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_dashboard">DailyWorkFill</string>
 
-    <string name="login_url">http://192.168.1.116/ierp/index.php/mobile/login</string>
+    <string name="login_url">http://192.168.1.100/ierp/index.php/mobile/login</string>
+    <string name="projectlist_url">http://192.168.1.100/ierp/index.php/mobile/getprojectslist</string>
+    <string name="projectheadlist_url">http://192.168.1.100/ierp/index.php/mobile/getprojectheadslist</string>
+    <string name="categorylist_url">http://192.168.1.100/ierp/index.php/mobile/getcategorylist</string>
+    <string name="locationlist_url">http://192.168.1.100/ierp/index.php/mobile/getlocationlist</string>
+    <string name="date_url">http://192.168.1.100/ierp/index.php/mobile/getdate</string>
+    <string name="insertdata_url">http://192.168.1.100/ierp/index.php/mobile/insertdailywork</string>
 </resources>

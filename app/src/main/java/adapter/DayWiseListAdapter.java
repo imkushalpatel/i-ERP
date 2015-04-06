@@ -20,19 +20,19 @@ import data.DayWiseGroup;
 /**
  * Created by Kushal on 12-03-2015.
  */
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
-    private Context _context;
-    private ArrayList<DayWiseGroup> _listDataGroup;
+public class DayWiseListAdapter extends BaseExpandableListAdapter {
+    private Context context;
+    private ArrayList<DayWiseGroup> dayWiseGroups;
 
-    public ExpandableListAdapter(Context context, ArrayList<DayWiseGroup> _listDataGroup) {
-        this._context = context;
-        this._listDataGroup = _listDataGroup;
+    public DayWiseListAdapter(Context context, ArrayList<DayWiseGroup> dayWiseGroups) {
+        this.context = context;
+        this.dayWiseGroups = dayWiseGroups;
     }
 
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataGroup.get(groupPosition).getChildren().get(childPosititon);
+        return this.dayWiseGroups.get(groupPosition).getChildren().get(childPosititon);
     }
 
     @Override
@@ -44,11 +44,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String ItemName = _listDataGroup.get(groupPosition).getChildren().get(childPosition).getMonthDay();
-        final String ItemValue = _listDataGroup.get(groupPosition).getChildren().get(childPosition).getDayWork();
+        final String ItemName = dayWiseGroups.get(groupPosition).getChildren().get(childPosition).getMonthDay();
+        final String ItemValue = dayWiseGroups.get(groupPosition).getChildren().get(childPosition).getDayWork();
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.daywise_list_item, null);
         }
@@ -65,17 +65,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataGroup.get(groupPosition).getChildren().size();
+        return this.dayWiseGroups.get(groupPosition).getChildren().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataGroup.get(groupPosition);
+        return this.dayWiseGroups.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataGroup.size();
+        return this.dayWiseGroups.size();
     }
 
     @Override
@@ -86,10 +86,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String GroupName = _listDataGroup.get(groupPosition).getMonthName();
-        String GroupValue = _listDataGroup.get(groupPosition).getMonthTotal();
+        String GroupName = dayWiseGroups.get(groupPosition).getMonthName();
+        String GroupValue = dayWiseGroups.get(groupPosition).getMonthTotal();
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.daywise_list_group, null);
         }

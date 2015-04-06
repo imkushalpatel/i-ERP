@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import helper.JSONParser;
 import helper.SessionManager;
+import helper.ValidationMethod;
 
 
 public class Login extends ActionBarActivity {
@@ -43,7 +45,11 @@ public class Login extends ActionBarActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoginCheck().execute();
+                if(check()){
+
+                    new LoginCheck().execute();
+
+                }
             }
         });
 
@@ -93,9 +99,30 @@ public class Login extends ActionBarActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+    public boolean check(){
+        if ((ValidationMethod.checkEmpty(etusername))
+                && (ValidationMethod.checkEmpty(etpassword)) != true) {
+
+            Toast.makeText(getBaseContext(), "Please fill up all details",
+                    Toast.LENGTH_LONG).show();
+        } else {
+
+            return true;
+            /*if (ValidationMethod.checkEmail(etusername.getText().toString().trim()) != true) {
+                Toast.makeText(getBaseContext(), "Invalid Email id",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                return true;
+            }*/
+        }
+
+
+        return false;
+
+    }
     private class LoginCheck extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;
-        JSONParser jsonparser =new JSONParser();
+        JSONParser jsonParser =new JSONParser(getApplicationContext());
         JSONObject jobj;
         SessionManager session=new SessionManager(Login.this);
         @Override
@@ -118,13 +145,13 @@ public class Login extends ActionBarActivity {
         protected Void doInBackground(Void... params) {
             List<NameValuePair> par= new ArrayList<NameValuePair>();
             par.add(new BasicNameValuePair("user", etusername.getText().toString()));
-            par.add(new BasicNameValuePair("pass", etpassword.getText().toString()));
+            par.add(new BasicNameValuePair("pass", ValidationMethod.md5(etpassword.getText().toString())));
 
-            jobj=jsonparser.makeHttpRequest(getResources().getString(R.string.login_url), "POST", par);
-            Log.i("parser", jobj.toString());
-           /* try {
+            jobj=jsonParser.makeHttpRequest(getResources().getString(R.string.login_url), "POST", par);
+            //Log.i("parser", jobj.toString());
+           try {
                 if(jobj.getBoolean("Login")){
-                    //session.createLoginSession(jobj.getString("Name"),jobj.getString("lname"),jobj.getString("email"),jobj.getString("userid"));
+                   session.createLoginSession(jobj.getString("EmpId"),jobj.getString("EntityId"),jobj.getString("UserType"));
                     Intent interntDashboard = new Intent(getApplicationContext(),
                             Dashboard.class);
                     interntDashboard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -155,7 +182,7 @@ public class Login extends ActionBarActivity {
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }*/
+            }
 
             return null;
         }
