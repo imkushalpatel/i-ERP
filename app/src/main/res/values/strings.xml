@@ -15,4 +15,6 @@
     <string name="locationlist_url">http://192.168.1.100/ierp/index.php/mobile/getlocationlist</string>
     <string name="date_url">http://192.168.1.100/ierp/index.php/mobile/getdate</string>
     <string name="insertdata_url">http://192.168.1.100/ierp/index.php/mobile/insertdailywork</string>
+    <string name="title_activity_day_wise">DayWise</string>
+    <string name="title_activity_delay_reason">DelayReason</string>
 </resources>

@@ -106,25 +106,37 @@
         <Button
             android:id="@+id/btnsubmit"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:background="@drawable/button_blue"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Submit" />
 
         <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/btnclear"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_blue"/>
+
+        <Button
             android:id="@+id/btndayview"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_blue"
             android:text="DayView" />
 
         <Button
             android:id="@+id/btndelayview"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_blue"
             android:text="Delay Reasons" />
 
     </LinearLayout>

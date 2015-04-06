@@ -3,6 +3,7 @@ package com.dexteronweb.i_erp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -47,7 +48,7 @@ public class Dashboard extends ActionBarActivity {
     Spinner spnhead, spncategory, spnlocation;
     AutoCompleteTextView actvproject;
     DatePicker datePicker;
-    Button btnsubmit, btndayview, btndelayview;
+    Button btnsubmit, btndayview, btndelayview,btnclear;
     EditText etwork, etcomment;
     List<String> listproject, listcategory, listlocation, listhead;
     ArrayList<ProjectList> projectLists;
@@ -64,10 +65,7 @@ public class Dashboard extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#33b5e5")));
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setDisplayShowTitleEnabled(true);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
+
         sessionManager = new SessionManager(this);
         jsonParser = new JSONParser(getApplicationContext());
         actvproject = (AutoCompleteTextView) findViewById(R.id.actvproject);
@@ -80,6 +78,7 @@ public class Dashboard extends ActionBarActivity {
         btnsubmit = (Button) findViewById(R.id.btnsubmit);
         btndayview = (Button) findViewById(R.id.btndayview);
         btndelayview = (Button) findViewById(R.id.btndelayview);
+        btnclear=(Button)findViewById(R.id.btnclear);
 
         sessionManager.checkLogin();
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -106,6 +105,21 @@ public class Dashboard extends ActionBarActivity {
             public void onClick(View v) {
                 if(check())
                 new InsertData().execute();
+            }
+        });
+        btnclear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actvproject.setText("");
+                etwork.setText("");
+                etcomment.setText("");
+            }
+        });
+        btndayview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dayview=new Intent(getApplicationContext(),DayWise.class);
+                startActivity(dayview);
             }
         });
 
@@ -334,23 +348,19 @@ public class Dashboard extends ActionBarActivity {
     }
 
     class DateLoad extends AsyncTask<Void, Void, Void> {
-        ProgressDialog progress;
+
         JSONObject object;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress = new ProgressDialog(Dashboard.this);
-            progress.setMessage("Loading Data...");
-            progress.setIndeterminate(false);
-            progress.setCancelable(false);
-            progress.show();
+
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progress.dismiss();
+
         }
 
         @Override
@@ -419,8 +429,12 @@ public class Dashboard extends ActionBarActivity {
         }
     }
     public boolean check(){
-        if ((ValidationMethod.checkEmpty(etwork))
-                && (ValidationMethod.checkEmpty(actvproject)) != true) {
+        if ((ValidationMethod.checkEmpty(etwork)) != true) {
+            Toast.makeText(getBaseContext(), "Please fill up all details",
+                    Toast.LENGTH_LONG).show();
+
+
+        }      else if(actvproject.getText().toString().trim()!="") {
 
             Toast.makeText(getBaseContext(), "Please fill up all details",
                     Toast.LENGTH_LONG).show();

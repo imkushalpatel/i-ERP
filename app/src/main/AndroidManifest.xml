@@ -31,6 +31,14 @@
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard" >
         </activity>
+        <activity
+            android:name=".DayWise"
+            android:label="@string/title_activity_day_wise" >
+        </activity>
+        <activity
+            android:name=".DelayReason"
+            android:label="@string/title_activity_delay_reason" >
+        </activity>
     </application>
 
 </manifest>
