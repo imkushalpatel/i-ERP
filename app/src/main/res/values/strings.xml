@@ -8,13 +8,17 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_dashboard">DailyWorkFill</string>
 
-    <string name="login_url">http://192.168.1.100/ierp/index.php/mobile/login</string>
-    <string name="projectlist_url">http://192.168.1.100/ierp/index.php/mobile/getprojectslist</string>
-    <string name="projectheadlist_url">http://192.168.1.100/ierp/index.php/mobile/getprojectheadslist</string>
-    <string name="categorylist_url">http://192.168.1.100/ierp/index.php/mobile/getcategorylist</string>
-    <string name="locationlist_url">http://192.168.1.100/ierp/index.php/mobile/getlocationlist</string>
-    <string name="date_url">http://192.168.1.100/ierp/index.php/mobile/getdate</string>
-    <string name="insertdata_url">http://192.168.1.100/ierp/index.php/mobile/insertdailywork</string>
+    <string name="login_url">http://192.168.2.33/ierp/index.php/mobile/login</string>
+    <string name="projectlist_url">http://192.168.2.33/ierp/index.php/mobile/getprojectslist</string>
+    <string name="projectheadlist_url">http://192.168.2.33/ierp/index.php/mobile/getprojectheadslist</string>
+    <string name="categorylist_url">http://192.168.2.33/ierp/index.php/mobile/getcategorylist</string>
+    <string name="locationlist_url">http://192.168.2.33/ierp/index.php/mobile/getlocationlist</string>
+    <string name="date_url">http://192.168.2.33/ierp/index.php/mobile/getdate</string>
+    <string name="insertdata_url">http://192.168.2.33/ierp/index.php/mobile/insertdailywork</string>
+    <string name="issuelist_url">http://192.168.2.33/ierp/index.php/mobile/getissuelist</string>
+    <string name="daywiselist_url">http://192.168.2.33/ierp/index.php/mobile/getdaylist</string>
+    <string name="delaylist_proj_url">http://192.168.2.33/ierp/index.php/mobile/getdelaylistproj</string>
+    <string name="delaylist_issue_url">http://192.168.2.33/ierp/index.php/mobile/getdelaylistcat</string>
     <string name="title_activity_day_wise">DayWise</string>
     <string name="title_activity_delay_reason">DelayReason</string>
 </resources>

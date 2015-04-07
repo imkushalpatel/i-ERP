@@ -1,14 +1,12 @@
 package com.dexteronweb.i_erp;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -186,7 +184,7 @@ JSONObject object;
         protected Boolean doInBackground(String... params) {
             listDataHeader = new ArrayList<DayWiseGroup>();
 
-            object = jsonParser.getJSONFromUrl("http://192.168.1.100/ierp/index.php/mobile/getdaylist/" + params[0]);
+            object = jsonParser.getJSONFromUrl(getResources().getString(R.string.daywiselist_url) + '/' + params[0]);
             try {
                 if (object.getBoolean("status")) {
                     JSONArray jsonArray = object.getJSONArray("DayWise");

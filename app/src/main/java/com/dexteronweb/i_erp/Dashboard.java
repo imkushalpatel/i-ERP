@@ -122,6 +122,34 @@ public class Dashboard extends ActionBarActivity {
                 startActivity(dayview);
             }
         });
+        btndelayview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+
+                builder.setPositiveButton("Project Wise", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(Dashboard.this, DelayReason.class);
+                        i.putExtra("Proj", true);
+                        startActivity(i);
+                    }
+                });
+                builder.setNegativeButton("Category Wise", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(Dashboard.this, DelayReason.class);
+                        i.putExtra("Proj", false);
+                        startActivity(i);
+                    }
+                });
+
+
+                builder.setTitle("Select View Type");
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
 
 
     }
@@ -145,6 +173,7 @@ public class Dashboard extends ActionBarActivity {
         if (id == R.id.action_logout) {
             SessionManager sessionManager = new SessionManager(this);
             sessionManager.logoutUser();
+            finish();
             return true;
         }
 
@@ -172,6 +201,28 @@ public class Dashboard extends ActionBarActivity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public boolean check(){
+        if ((ValidationMethod.checkEmpty(etwork)) != true) {
+            Toast.makeText(getBaseContext(), "Please fill up Work Details",
+                    Toast.LENGTH_LONG).show();
+
+
+        } else if (ValidationMethod.checkEmpty(etcomment) != true) {
+            Toast.makeText(getBaseContext(), "Please fill up Comment Details",
+                    Toast.LENGTH_LONG).show();
+        } else if (!listproject.contains(actvproject.getText().toString())) {
+            Toast.makeText(getBaseContext(), "Please fill up Correct Project Name",
+                    Toast.LENGTH_LONG).show();
+        } else {
+
+            return true;
+        }
+
+
+        return false;
+
     }
 
     class ProjectListLoad extends AsyncTask<Void, Void, Void> {
@@ -385,6 +436,7 @@ public class Dashboard extends ActionBarActivity {
             return null;
         }
     }
+
     class InsertData extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;
         JSONObject object;
@@ -406,6 +458,8 @@ public class Dashboard extends ActionBarActivity {
             try{
                 if(object.getBoolean("status")){
                     Toast.makeText(getApplicationContext(), "Data Saved Successfully.....", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Data Insert Failed..... ", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -427,30 +481,5 @@ public class Dashboard extends ActionBarActivity {
 
             return null;
         }
-    }
-    public boolean check(){
-        if ((ValidationMethod.checkEmpty(etwork)) != true) {
-            Toast.makeText(getBaseContext(), "Please fill up all details",
-                    Toast.LENGTH_LONG).show();
-
-
-        }      else if(actvproject.getText().toString().trim()!="") {
-
-            Toast.makeText(getBaseContext(), "Please fill up all details",
-                    Toast.LENGTH_LONG).show();
-        } else {
-
-            return true;
-            /*if (ValidationMethod.checkEmail(etusername.getText().toString().trim()) != true) {
-                Toast.makeText(getBaseContext(), "Invalid Email id",
-                        Toast.LENGTH_LONG).show();
-            } else {
-                return true;
-            }*/
-        }
-
-
-        return false;
-
     }
 }
