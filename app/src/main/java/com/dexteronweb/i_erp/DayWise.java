@@ -71,7 +71,9 @@ public class DayWise extends ActionBarActivity {
         actvproject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                txttotal.setText("");
+                txtdeadline.setText("");
+                txtrrr.setText("");
                 try {
                     String projectid = projectLists.get(listproject.indexOf(actvproject.getText().toString())).getProjectId();
                     if (new FillData().execute(projectid).get()) {
@@ -89,9 +91,7 @@ public class DayWise extends ActionBarActivity {
                         txt1.setVisibility(View.INVISIBLE);
                         txt2.setVisibility(View.INVISIBLE);
                         txt3.setVisibility(View.INVISIBLE);
-                        txttotal.setText("");
-                        txtdeadline.setText("");
-                        txtrrr.setText("");
+
 
                     }
                 } catch (InterruptedException e) {
@@ -183,6 +183,7 @@ JSONObject object;
         @Override
         protected Boolean doInBackground(String... params) {
             listDataHeader = new ArrayList<DayWiseGroup>();
+
 
             object = jsonParser.getJSONFromUrl(getResources().getString(R.string.daywiselist_url) + '/' + params[0]);
             try {

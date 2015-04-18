@@ -4,7 +4,7 @@ package data;
  * Created by kushal on 5/4/15.
  */
 public class LocationList {
-    String LocationId,LocationName;
+    String LocationId, LocationName;
 
     public LocationList(String locationId, String locationName) {
         LocationId = locationId;

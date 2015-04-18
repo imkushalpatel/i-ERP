@@ -12,36 +12,33 @@ import com.dexteronweb.i_erp.R;
 
 import java.util.ArrayList;
 
-import data.DelayList;
-
-;
+import data.HeadWiseList;
 
 /**
- * Created by kushal on 16/3/15.
+ * Created by kushal on 16/4/15.
  */
-public class DelayListAdapter extends BaseAdapter {
+public class HeadWiseListAdapter extends BaseAdapter {
     Context context;
-    ArrayList<DelayList> delayListArrayAdapter;
+    ArrayList<HeadWiseList> headWiseLists;
 
-    public DelayListAdapter(Context context, ArrayList<DelayList> delayListArrayAdapter) {
+    public HeadWiseListAdapter(Context context, ArrayList<HeadWiseList> headWiseLists) {
         this.context = context;
-        this.delayListArrayAdapter = delayListArrayAdapter;
+        this.headWiseLists = headWiseLists;
     }
-
 
     @Override
     public int getCount() {
-        return delayListArrayAdapter.size();
+        return headWiseLists.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return delayListArrayAdapter.get(position);
+        return headWiseLists.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return delayListArrayAdapter.indexOf(getItem(position));
+        return headWiseLists.indexOf(position);
     }
 
     @Override
@@ -49,17 +46,21 @@ public class DelayListAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.delay_list, null);
+            convertView = infalInflater.inflate(R.layout.head_wise_item, null);
         }
 
         TextView tvname = (TextView) convertView
-                .findViewById(R.id.txtdelaylistname);
+                .findViewById(R.id.txtName);
         tvname.setTypeface(null, Typeface.BOLD);
-        tvname.setText(delayListArrayAdapter.get(position).getName());
+        tvname.setText(headWiseLists.get(position).getProjectName());
+        TextView tvwork = (TextView) convertView
+                .findViewById(R.id.txtWork);
+        tvwork.setTypeface(null, Typeface.BOLD);
+        tvwork.setText(headWiseLists.get(position).getWorkDone());
         TextView tvvalue = (TextView) convertView
-                .findViewById(R.id.txtdelaylistvalue);
+                .findViewById(R.id.txtValue);
         tvvalue.setTypeface(null, Typeface.BOLD);
-        tvvalue.setText(delayListArrayAdapter.get(position).getValue());
+        tvvalue.setText(headWiseLists.get(position).getValue());
 
 
         return convertView;

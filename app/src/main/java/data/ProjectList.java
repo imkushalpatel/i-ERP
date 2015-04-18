@@ -4,7 +4,7 @@ package data;
  * Created by kushal on 5/4/15.
  */
 public class ProjectList {
-    String ProjectId,ProjectName;
+    String ProjectId, ProjectName;
 
     public ProjectList(String projectId, String projectName) {
         super();

@@ -3,15 +3,12 @@ package helper;
 import android.content.Context;
 import android.util.Log;
 
-
-import com.dexteronweb.i_erp.Login;
 import com.loopj.android.http.PersistentCookieStore;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -30,14 +27,14 @@ import java.util.List;
 public class JSONParser {
 
     public static DefaultHttpClient httpClient = new DefaultHttpClient();
-    PersistentCookieStore myCookieStore;
     static InputStream is = null;
     static JSONObject jObj = null;
     static String json = "";
+    PersistentCookieStore myCookieStore;
 
     // constructor
     public JSONParser(Context context) {
-       myCookieStore=new PersistentCookieStore(context);
+        myCookieStore = new PersistentCookieStore(context);
         httpClient.setCookieStore(myCookieStore);
     }
 

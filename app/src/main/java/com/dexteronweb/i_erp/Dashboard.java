@@ -48,7 +48,7 @@ public class Dashboard extends ActionBarActivity {
     Spinner spnhead, spncategory, spnlocation;
     AutoCompleteTextView actvproject;
     DatePicker datePicker;
-    Button btnsubmit, btndayview, btndelayview,btnclear;
+    Button btnsubmit, btndayview, btndelayview, btnclear, btnheadwiew;
     EditText etwork, etcomment;
     List<String> listproject, listcategory, listlocation, listhead;
     ArrayList<ProjectList> projectLists;
@@ -79,6 +79,7 @@ public class Dashboard extends ActionBarActivity {
         btndayview = (Button) findViewById(R.id.btndayview);
         btndelayview = (Button) findViewById(R.id.btndelayview);
         btnclear=(Button)findViewById(R.id.btnclear);
+        btnheadwiew = (Button) findViewById(R.id.btnheadview);
 
         sessionManager.checkLogin();
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -122,6 +123,15 @@ public class Dashboard extends ActionBarActivity {
                 startActivity(dayview);
             }
         });
+        btnheadwiew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent headview = new Intent(getApplicationContext(), HeadWise.class);
+                startActivity(headview);
+            }
+        });
+
+
         btndelayview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

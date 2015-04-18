@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/etto"
-        android:text="Medium Text"
+        android:text="Project Heads:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
         android:inputType="none" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listViewHead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/actvheads"

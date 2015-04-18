@@ -23,13 +23,12 @@ import helper.SessionManager;
 public class Splash extends ActionBarActivity {
 
     private static final long SPLASHTIME = 5000;
-    private ProgressBar progressBar;
     SessionManager session;
     // flag for Internet connection status
     Boolean isInternetPresent = false;
-
     // Connection detector class
     ConnectionDetector cd;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +78,7 @@ public class Splash extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void StartAnimations() {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
@@ -92,6 +92,37 @@ public class Splash extends ActionBarActivity {
         iv.clearAnimation();
         iv.startAnimation(anim);
 
+    }
+
+    /**
+     * Function to display simple Alert Dialog
+     *
+     * @param context - application context
+     * @param title   - alert dialog title
+     * @param message - alert message
+     * @param status  - success/failure (used to set icon)
+     */
+    public void showAlertDialog(Context context, String title, String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+        // Setting Dialog Title
+        alertDialog.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(message);
+
+        // Setting alert dialog icon
+        alertDialog.setIcon(R.drawable.fail);
+
+        // Setting OK Button
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
     }
 
     private class ThreadProgressBar extends Thread {
@@ -160,41 +191,6 @@ public class Splash extends ActionBarActivity {
 
             }
         }
-    }
-
-    /**
-     * Function to display simple Alert Dialog
-     *
-     * @param context
-     *            - application context
-     * @param title
-     *            - alert dialog title
-     * @param message
-     *            - alert message
-     * @param status
-     *            - success/failure (used to set icon)
-     * */
-    public void showAlertDialog(Context context, String title, String message) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-
-        // Setting Dialog Title
-        alertDialog.setTitle(title);
-
-        // Setting Dialog Message
-        alertDialog.setMessage(message);
-
-        // Setting alert dialog icon
-        alertDialog.setIcon(R.drawable.fail);
-
-        // Setting OK Button
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
     }
 
 }

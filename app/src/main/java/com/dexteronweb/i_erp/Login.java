@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,7 @@ import helper.ValidationMethod;
 
 
 public class Login extends ActionBarActivity {
-    EditText etusername,etpassword;
+    EditText etusername, etpassword;
     Button btnlogin;
 
     @Override
@@ -38,14 +37,14 @@ public class Login extends ActionBarActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
 
-        etusername=(EditText)findViewById(R.id.etUsername);
-        etpassword=(EditText)findViewById(R.id.etPassword);
-        btnlogin=(Button)findViewById(R.id.btnLogin);
+        etusername = (EditText) findViewById(R.id.etUsername);
+        etpassword = (EditText) findViewById(R.id.etPassword);
+        btnlogin = (Button) findViewById(R.id.btnLogin);
 
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(check()){
+                if (check()) {
 
                     new LoginCheck().execute();
 
@@ -77,6 +76,7 @@ public class Login extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -99,7 +99,8 @@ public class Login extends ActionBarActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-    public boolean check(){
+
+    public boolean check() {
         if ((ValidationMethod.checkEmpty(etusername))
                 && (ValidationMethod.checkEmpty(etpassword)) != true) {
 
@@ -120,15 +121,17 @@ public class Login extends ActionBarActivity {
         return false;
 
     }
+
     private class LoginCheck extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;
-        JSONParser jsonParser =new JSONParser(getApplicationContext());
+        JSONParser jsonParser = new JSONParser(getApplicationContext());
         JSONObject jobj;
-        SessionManager session=new SessionManager(Login.this);
+        SessionManager session = new SessionManager(Login.this);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress= new ProgressDialog(Login.this);
+            progress = new ProgressDialog(Login.this);
             progress.setMessage("Validating User...");
             progress.setIndeterminate(false);
             progress.setCancelable(false);
@@ -143,24 +146,22 @@ public class Login extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            List<NameValuePair> par= new ArrayList<NameValuePair>();
+            List<NameValuePair> par = new ArrayList<NameValuePair>();
             par.add(new BasicNameValuePair("user", etusername.getText().toString()));
             par.add(new BasicNameValuePair("pass", ValidationMethod.md5(etpassword.getText().toString())));
 
-            jobj=jsonParser.makeHttpRequest(getResources().getString(R.string.login_url), "POST", par);
+            jobj = jsonParser.makeHttpRequest(getResources().getString(R.string.login_url), "POST", par);
             //Log.i("parser", jobj.toString());
-           try {
-                if(jobj.getBoolean("Login")){
-                   session.createLoginSession(jobj.getString("EmpId"),jobj.getString("EntityId"),jobj.getString("UserType"));
+            try {
+                if (jobj.getBoolean("Login")) {
+                    session.createLoginSession(jobj.getString("EmpId"), jobj.getString("EntityId"), jobj.getString("UserType"));
                     Intent interntDashboard = new Intent(getApplicationContext(),
                             Dashboard.class);
                     interntDashboard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     interntDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(interntDashboard);
                     finish();
-                }
-                else
-                {
+                } else {
                     Login.this.runOnUiThread(new Runnable() {
                         public void run() {
                             AlertDialog.Builder builder = new AlertDialog.Builder(

@@ -4,7 +4,13 @@ package data;
  * Created by kushal on 5/4/15.
  */
 public class HeadsList {
-    String HeadId,HeadName;
+    String HeadId, HeadName;
+
+    public HeadsList(String headId, String headName) {
+
+        HeadId = headId;
+        HeadName = headName;
+    }
 
     public String getHeadId() {
         return HeadId;
@@ -19,12 +25,6 @@ public class HeadsList {
     }
 
     public void setHeadName(String headName) {
-        HeadName = headName;
-    }
-
-    public HeadsList(String headId, String headName) {
-
-        HeadId = headId;
         HeadName = headName;
     }
 }

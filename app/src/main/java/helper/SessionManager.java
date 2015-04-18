@@ -7,26 +7,17 @@ import android.content.SharedPreferences.Editor;
 
 import com.dexteronweb.i_erp.Login;
 
-import org.apache.http.client.CookieStore;
-import org.apache.http.cookie.Cookie;
-
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 public class SessionManager {
+    // User name (make variable public to access from outside)
+    // public static final String KEY_NAME = "name";
+    public static final String KEY_ENTITY_ID = "entityid";
+    public static final String KEY_ID = "id";
+    // Email address (make variable public to access from outside)
+    public static final String KEY_USER_TYPE = "type";
     // Sharedpref file name
     private static final String PREF_NAME = "i-ERP";
-    // User name (make variable public to access from outside)
-   // public static final String KEY_NAME = "name";
-    public static final String KEY_ENTITY_ID = "entityid";
-    // Email address (make variable public to access from outside)
-
-    public static final String KEY_ID = "id";
-    public static final String KEY_USER_TYPE="type";
-
-
-
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
     // Shared Preferences
@@ -48,16 +39,16 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession(String userid, String entityid,String usertype) {
+    public void createLoginSession(String userid, String entityid, String usertype) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
         //editor.putString(KEY_NAME, name);
-        editor.putString(KEY_ID,userid);
+        editor.putString(KEY_ID, userid);
         // Storing email in pref
-        editor.putString(KEY_ENTITY_ID,entityid);
-        editor.putString(KEY_USER_TYPE,usertype);
+        editor.putString(KEY_ENTITY_ID, entityid);
+        editor.putString(KEY_USER_TYPE, usertype);
 
         // commit changes
         editor.commit();

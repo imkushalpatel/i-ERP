@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,7 +20,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -35,46 +33,44 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import adapter.DelayListAdapter;
-import data.DelayList;
-import data.ProjectList;
+import adapter.HeadWiseListAdapter;
+import data.HeadWiseList;
+import data.HeadsList;
 import helper.JSONParser;
 import helper.SessionManager;
 
 
-public class DelayReason extends ActionBarActivity {
-    Calendar calendar;
-    ArrayList<DelayList> delayLists;
-    DelayListAdapter delayListAdapter;
-    Boolean proj;
-    TextView txtmain;
+public class HeadWise extends ActionBarActivity {
+
     AutoCompleteTextView completeTextView;
     JSONParser jsonParser;
     ListView listView;
     EditText etfrom, etto;
     SessionManager sessionManager;
-    ArrayAdapter adaptermain;
-    List<ProjectList> projectLists;
-    List<String> listmain;
+    ArrayAdapter adapterheads;
+    HeadWiseListAdapter headWiseListAdapter;
+    ArrayList<HeadWiseList> headWiseLists;
+    List<String> list;
+    List<HeadsList> headsLists;
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delay_reason);
+        setContentView(R.layout.activity_head_wise);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#33b5e5")));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        txtmain = (TextView) findViewById(R.id.txtmain);
         completeTextView = (AutoCompleteTextView) findViewById(R.id.actvheads);
-        listView = (ListView) findViewById(R.id.listView);
         etfrom = (EditText) findViewById(R.id.etfrom);
         etto = (EditText) findViewById(R.id.etto);
+        listView = (ListView) findViewById(R.id.listViewHead);
+
         sessionManager = new SessionManager(this);
         jsonParser = new JSONParser(getApplicationContext());
         calendar = Calendar.getInstance();
         sessionManager.checkLogin();
-        Intent i = this.getIntent();
-        proj = i.getExtras().getBoolean("Proj");
         new LoadViewData().execute();
+
         etfrom.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -104,7 +100,7 @@ public class DelayReason extends ActionBarActivity {
         etfrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(DelayReason.this,
+                DatePickerDialog dpd = new DatePickerDialog(HeadWise.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -123,7 +119,7 @@ public class DelayReason extends ActionBarActivity {
         etto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(DelayReason.this,
+                DatePickerDialog dpd = new DatePickerDialog(HeadWise.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -143,11 +139,11 @@ public class DelayReason extends ActionBarActivity {
                 try {
                     if (new LoadList().execute().get()) {
                         listView.setVisibility(View.VISIBLE);
-                        delayListAdapter = new DelayListAdapter(DelayReason.this, delayLists);
-                        listView.setAdapter(delayListAdapter);
+                        headWiseListAdapter = new HeadWiseListAdapter(HeadWise.this, headWiseLists);
+                        listView.setAdapter(headWiseListAdapter);
                     } else {
                         listView.setVisibility(View.INVISIBLE);
-                        Toast.makeText(DelayReason.this, "No Data Available", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HeadWise.this, "No Data Available", Toast.LENGTH_LONG).show();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -156,16 +152,14 @@ public class DelayReason extends ActionBarActivity {
                 }
             }
         });
-
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_delay_reason, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_head_wise, menu);
+        return false;
     }
 
     @Override
@@ -188,7 +182,6 @@ public class DelayReason extends ActionBarActivity {
             finish();
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -199,7 +192,7 @@ public class DelayReason extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress = new ProgressDialog(DelayReason.this);
+            progress = new ProgressDialog(HeadWise.this);
             progress.setMessage("Loading Data...");
             progress.setIndeterminate(false);
             progress.setCancelable(false);
@@ -209,7 +202,7 @@ public class DelayReason extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            completeTextView.setAdapter(adaptermain);
+            completeTextView.setAdapter(adapterheads);
             progress.dismiss();
 
 
@@ -217,41 +210,22 @@ public class DelayReason extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            listmain = new ArrayList<>();
-            projectLists = new ArrayList<>();
-            listmain.add("ALL");
-            if (proj) {
-                txtmain.setText("Project:");
-                projectLists.add(new ProjectList("0", "ALL"));
-                object = jsonParser.getJSONFromUrl(getResources().getString(R.string.projectlist_url));
-                try {
-                    JSONArray jsonArray = object.getJSONArray("ProjectList");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object1 = jsonArray.getJSONObject(i);
-                        listmain.add(object1.getString("ProjectName"));
-                        projectLists.add(new ProjectList(object1.getString("ProjectId"), object1.getString("ProjectName")));
+            list = new ArrayList<>();
+            headsLists = new ArrayList<>();
 
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            object = jsonParser.getJSONFromUrl(getResources().getString(R.string.headwiselist_heads_url));
+            try {
+                JSONArray jsonArray = object.getJSONArray("HeadList");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object1 = jsonArray.getJSONObject(i);
+                    list.add(object1.getString("Name"));
+                    headsLists.add(new HeadsList(object1.getString("AssociateId"), object1.getString("Name")));
+
                 }
-            } else {
-                txtmain.setText("Category:");
-                object = jsonParser.getJSONFromUrl(getResources().getString(R.string.issuelist_url));
-                try {
-                    JSONArray jsonArray = object.getJSONArray("IssuesList");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object1 = jsonArray.getJSONObject(i);
-                        listmain.add(object1.getString("Issue"));
-
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            adaptermain = new ArrayAdapter<String>(DelayReason.this, android.R.layout.simple_list_item_1, listmain);
+            adapterheads = new ArrayAdapter<String>(HeadWise.this, android.R.layout.simple_list_item_1, list);
 
             return null;
         }
@@ -272,48 +246,36 @@ public class DelayReason extends ActionBarActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            delayLists = new ArrayList<DelayList>();
+            headWiseLists = new ArrayList<>();
             List<NameValuePair> par = new ArrayList<NameValuePair>();
-            par.add(new BasicNameValuePair("main", completeTextView.getText().toString()));
+            String id = headsLists.get(list.indexOf(completeTextView.getText().toString())).getHeadId();
+            par.add(new BasicNameValuePair("id", id));
             par.add(new BasicNameValuePair("from", etfrom.getText().toString()));
             par.add(new BasicNameValuePair("to", etto.getText().toString()));
 
-            if (proj) {
-                try {
-                    object = jsonParser.makeHttpRequest(getResources().getString(R.string.delaylist_proj_url), "POST", par);
-                    Log.i("object", object.toString());
-                    JSONArray jsonArray = object.getJSONArray(completeTextView.getText().toString().trim());
+
+            try {
+                object = jsonParser.makeHttpRequest(getResources().getString(R.string.headwiselist_list_url), "POST", par);
+                //Log.i("object", object.toString());
+                headWiseLists.add(new HeadWiseList("Project Name", "Work Done", "Value"));
+
+                if (object.getBoolean("status")) {
+                    JSONArray jsonArray = object.getJSONArray("headwise");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object1 = jsonArray.getJSONObject(i);
-                        delayLists.add(new DelayList(object1.getString("cat"), object1.getString("values")));
+                        headWiseLists.add(new HeadWiseList(object1.getString("proj"), object1.getString("workdone"), object1.getString("value")));
                     }
-                    delayLists.add(new DelayList("Null", object.getString("nocat")));
-                    delayLists.add(new DelayList("Total", object.getString("total")));
+                    headWiseLists.add(new HeadWiseList("Total", object.getString("totalwork"), object.getString("totalvalue")));
                     return true;
+                } else return false;
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    object = jsonParser.makeHttpRequest(getResources().getString(R.string.delaylist_issue_url), "POST", par);
-                    Log.i("object", object.toString());
-                    JSONArray jsonArray = object.getJSONArray(completeTextView.getText().toString().trim());
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object1 = jsonArray.getJSONObject(i);
-                        delayLists.add(new DelayList(object1.getString("proj"), object1.getString("values")));
-
-                    }
-                    delayLists.add(new DelayList("Total", object.getString("total")));
-                    return true;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-                return false;
+            } catch (JSONException e) {
+                //return false;
+                e.printStackTrace();
             }
+
             return false;
         }
     }
+
 }
