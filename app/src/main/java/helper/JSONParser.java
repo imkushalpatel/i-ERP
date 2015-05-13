@@ -107,7 +107,7 @@ public class JSONParser {
         try {
 
             // check for request method
-            if (method == "POST") {
+            if (method.equals("POST")) {
                 // request method is POST
                 // defaultHttpClient
 
@@ -121,7 +121,7 @@ public class JSONParser {
 
                 is = httpEntity.getContent();
 
-            } else if (method == "GET") {
+            } else if (method.equals("GET")) {
                 // request method is GET
 
                 String paramString = URLEncodedUtils.format(params, "utf-8");

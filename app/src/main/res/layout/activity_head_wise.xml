@@ -69,11 +69,22 @@
         android:ems="10"
         android:inputType="none" />
 
+    <Button
+        android:id="@+id/btnsubmit"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/actvheads"
+        android:text="Go" />
+
     <ListView
         android:id="@+id/listViewHead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/actvheads"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnsubmit" />
 
 </RelativeLayout>

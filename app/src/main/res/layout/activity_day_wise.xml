@@ -94,10 +94,12 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
+
     <ExpandableListView
         android:id="@+id/daywiselistview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_vertical" />
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|center_vertical" />
+
 
 </LinearLayout>

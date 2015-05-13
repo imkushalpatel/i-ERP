@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -27,16 +27,16 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Dashboard"
-            android:label="@string/title_activity_dashboard"></activity>
+            android:label="@string/title_activity_dashboard" />
         <activity
             android:name=".DayWise"
-            android:label="@string/title_activity_day_wise"></activity>
+            android:label="@string/title_activity_day_wise" />
         <activity
             android:name=".DelayReason"
-            android:label="@string/title_activity_delay_reason"></activity>
+            android:label="@string/title_activity_delay_reason" />
         <activity
             android:name=".HeadWise"
-            android:label="@string/title_activity_head_wise"></activity>
+            android:label="@string/title_activity_head_wise" />
     </application>
 
 </manifest>

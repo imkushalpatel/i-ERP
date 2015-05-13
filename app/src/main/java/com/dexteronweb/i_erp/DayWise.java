@@ -135,6 +135,18 @@ public class DayWise extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent interntDashboard = new Intent(getApplicationContext(),
+                Dashboard.class);
+        interntDashboard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        interntDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(interntDashboard);
+        finish();
+    }
+
     class ProjectListLoad extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;
         JSONObject object;

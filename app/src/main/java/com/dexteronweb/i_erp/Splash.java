@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import java.util.HashMap;
+
 import helper.ConnectionDetector;
 import helper.SessionManager;
 
@@ -138,7 +140,7 @@ public class Splash extends ActionBarActivity {
                             .sendMessage(handlerProgress.obtainMessage());
                 }
             } catch (java.lang.InterruptedException e) {
-
+                e.printStackTrace();
             }
         }
     }
@@ -166,12 +168,22 @@ public class Splash extends ActionBarActivity {
                         // Internet Connection is Present
                         // make HTTP requests
                         if (session.isLoggedIn()) {
+                            HashMap<String, String> user = session.getUserDetails();
+                            if (user.get(SessionManager.KEY_USER_TYPE).equals("0")) {
                             Intent intentMain = new Intent(getApplicationContext(),
                                     Dashboard.class);
                             intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intentMain);
-                            finish();
+                                finish();
+                            } else {
+                                Intent intentMain = new Intent(getApplicationContext(),
+                                        DayWise.class);
+                                intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intentMain);
+                                finish();
+                            }
                         } else {
 
                             Intent intentMain = new Intent(getApplicationContext(),

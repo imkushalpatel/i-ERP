@@ -155,12 +155,21 @@ public class Login extends ActionBarActivity {
             try {
                 if (jobj.getBoolean("Login")) {
                     session.createLoginSession(jobj.getString("EmpId"), jobj.getString("EntityId"), jobj.getString("UserType"));
+                    if (jobj.getString("UserType").equals("0")) {
                     Intent interntDashboard = new Intent(getApplicationContext(),
                             Dashboard.class);
                     interntDashboard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     interntDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(interntDashboard);
                     finish();
+                    } else {
+                        Intent interntDashboard = new Intent(getApplicationContext(),
+                                DayWise.class);
+                        interntDashboard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        interntDashboard.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(interntDashboard);
+                        finish();
+                    }
                 } else {
                     Login.this.runOnUiThread(new Runnable() {
                         public void run() {

@@ -14,9 +14,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -53,6 +53,7 @@ public class HeadWise extends ActionBarActivity {
     List<String> list;
     List<HeadsList> headsLists;
     Calendar calendar;
+    Button btnsubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +65,16 @@ public class HeadWise extends ActionBarActivity {
         etfrom = (EditText) findViewById(R.id.etfrom);
         etto = (EditText) findViewById(R.id.etto);
         listView = (ListView) findViewById(R.id.listViewHead);
+        btnsubmit = (Button) findViewById(R.id.btnsubmit);
 
         sessionManager = new SessionManager(this);
         jsonParser = new JSONParser(getApplicationContext());
         calendar = Calendar.getInstance();
         sessionManager.checkLogin();
         new LoadViewData().execute();
+
+        etfrom.setText(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        etto.setText(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         etfrom.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -133,7 +138,7 @@ public class HeadWise extends ActionBarActivity {
                 dpd.show();
             }
         });
-        completeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* completeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
@@ -151,7 +156,32 @@ public class HeadWise extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
+        });*/
+        btnsubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (list.contains(completeTextView.getText().toString())) {
+                    try {
+                        if (new LoadList().execute().get()) {
+                            listView.setVisibility(View.VISIBLE);
+                            headWiseListAdapter = new HeadWiseListAdapter(HeadWise.this, headWiseLists);
+                            listView.setAdapter(headWiseListAdapter);
+                        } else {
+                            listView.setVisibility(View.INVISIBLE);
+                            Toast.makeText(HeadWise.this, "No Data Available", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Toast.makeText(HeadWise.this, "Select Project Head", Toast.LENGTH_LONG).show();
+                }
+            }
         });
+
     }
 
 
@@ -184,6 +214,7 @@ public class HeadWise extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     class LoadViewData extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;

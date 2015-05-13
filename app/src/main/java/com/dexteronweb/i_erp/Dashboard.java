@@ -83,9 +83,10 @@ public class Dashboard extends ActionBarActivity {
 
         sessionManager.checkLogin();
         HashMap<String, String> user = sessionManager.getUserDetails();
-        if (user.get(SessionManager.KEY_USER_TYPE) == "0") {
-            btndelayview.setVisibility(View.INVISIBLE);
-            btndayview.setVisibility(View.INVISIBLE);
+        if (user.get(SessionManager.KEY_USER_TYPE).equals("0")) {
+            btndelayview.setVisibility(View.GONE);
+            btndayview.setVisibility(View.GONE);
+            btnheadwiew.setVisibility(View.GONE);
         }
         new DateLoad().execute();
         new ProjectListLoad().execute();
@@ -305,6 +306,8 @@ public class Dashboard extends ActionBarActivity {
         protected Void doInBackground(String... params) {
             listhead = new ArrayList<>();
             headsLists = new ArrayList<>();
+            //headsLists.add(new HeadsList("0","Select ProjectHead"));
+            listhead.add("Select ProjectHead");
             object = jsonParser.getJSONFromUrl(getResources().getString(R.string.projectheadlist_url) + '/' + params[0]);
 
             try {
@@ -347,6 +350,7 @@ public class Dashboard extends ActionBarActivity {
         protected Void doInBackground(String... params) {
             listcategory = new ArrayList<>();
             categoryLists = new ArrayList<>();
+            listcategory.add("Select Category");
             object = jsonParser.getJSONFromUrl(getResources().getString(R.string.categorylist_url) + '/' + params[0]);
 
             try {
@@ -390,6 +394,7 @@ public class Dashboard extends ActionBarActivity {
         protected Void doInBackground(String... params) {
             listlocation = new ArrayList<>();
             locationLists = new ArrayList<>();
+            listlocation.add("Select Location");
             object = jsonParser.getJSONFromUrl(getResources().getString(R.string.locationlist_url) + '/' + params[0]);
 
             try {
@@ -411,6 +416,8 @@ public class Dashboard extends ActionBarActivity {
     class DateLoad extends AsyncTask<Void, Void, Void> {
 
         JSONObject object;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar date = Calendar.getInstance();
 
         @Override
         protected void onPreExecute() {
@@ -421,15 +428,16 @@ public class Dashboard extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            datePicker.setMaxDate(date.getTime().getTime());
+            date.add(Calendar.DATE, -15);
+            datePicker.setMinDate(date.getTime().getTime());
 
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             object = jsonParser.getJSONFromUrl(getResources().getString(R.string.date_url));
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-            Calendar date = Calendar.getInstance();
             try {
                 Log.i("Date", object.getString("Date"));
                 date.setTime(df.parse(object.getString("Date")));
@@ -440,9 +448,9 @@ public class Dashboard extends ActionBarActivity {
                 e.printStackTrace();
             }
 
-            datePicker.setMaxDate(date.getTime().getTime());
-            date.add(Calendar.DATE, -15);
-            datePicker.setMinDate(date.getTime().getTime());
+//            datePicker.setMaxDate(date.getTime().getTime());
+//            date.add(Calendar.DATE, -15);
+//            datePicker.setMinDate(date.getTime().getTime());
             return null;
         }
     }
@@ -467,9 +475,9 @@ public class Dashboard extends ActionBarActivity {
             progress.dismiss();
             try{
                 if(object.getBoolean("status")){
-                    Toast.makeText(getApplicationContext(), "Data Saved Successfully.....", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Data Saved Successfully", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Data Insert Failed..... ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Data Insert Failed\nCheck Inserted Data ", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

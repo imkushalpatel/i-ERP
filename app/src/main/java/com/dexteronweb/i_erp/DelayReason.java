@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -49,6 +49,7 @@ public class DelayReason extends ActionBarActivity {
     Boolean proj;
     TextView txtmain;
     AutoCompleteTextView completeTextView;
+    Button btnsubmit;
     JSONParser jsonParser;
     ListView listView;
     EditText etfrom, etto;
@@ -68,12 +69,16 @@ public class DelayReason extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.listView);
         etfrom = (EditText) findViewById(R.id.etfrom);
         etto = (EditText) findViewById(R.id.etto);
+        btnsubmit = (Button) findViewById(R.id.btnsubmit);
         sessionManager = new SessionManager(this);
         jsonParser = new JSONParser(getApplicationContext());
         calendar = Calendar.getInstance();
         sessionManager.checkLogin();
         Intent i = this.getIntent();
         proj = i.getExtras().getBoolean("Proj");
+        etfrom.setText(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        etto.setText(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
         new LoadViewData().execute();
         etfrom.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -137,7 +142,7 @@ public class DelayReason extends ActionBarActivity {
                 dpd.show();
             }
         });
-        completeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* completeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
@@ -153,6 +158,35 @@ public class DelayReason extends ActionBarActivity {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
+                }
+            }
+        });*/
+        btnsubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listmain.contains(completeTextView.getText().toString())) {
+                    try {
+                        if (new LoadList().execute().get()) {
+                            listView.setVisibility(View.VISIBLE);
+                            delayListAdapter = new DelayListAdapter(DelayReason.this, delayLists);
+                            listView.setAdapter(delayListAdapter);
+                        } else {
+                            listView.setVisibility(View.INVISIBLE);
+                            Toast.makeText(DelayReason.this, "No Data Available", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    if (proj) {
+                        Toast.makeText(DelayReason.this, "Select Project", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(DelayReason.this, "Select Category", Toast.LENGTH_LONG).show();
+                    }
+
                 }
             }
         });
@@ -191,6 +225,7 @@ public class DelayReason extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     class LoadViewData extends AsyncTask<Void, Void, Void> {
         ProgressDialog progress;
